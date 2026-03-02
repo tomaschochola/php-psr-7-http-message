@@ -1,0 +1,40 @@
+{
+  "author": {
+    "email": "tomaschochola@tomaschochola.cz",
+    "name": "Tomáš Chochola",
+    "url": "https://github.com/tomaschochola"
+  },
+  "bugs": {
+    "email": "tomaschochola@tomaschochola.cz",
+    "url": "https://github.com/tomaschochola/php-psr-7-http-message/issues"
+  },
+  "contributors": [
+    {
+      "email": "tomaschochola@tomaschochola.cz",
+      "name": "Tomáš Chochola",
+      "url": "https://github.com/tomaschochola"
+    }
+  ],
+  "description": "@tomaschochola/php-psr-7-http-message",
+  "devDependencies": {
+    "@tomaschochola/ts-tooling-eslint-config": "github:tomaschochola/ts-tooling-eslint-config#1.x",
+    "@tomaschochola/ts-tooling-prettier-config": "github:tomaschochola/ts-tooling-prettier-config#1.x"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/tomaschochola"
+  },
+  "homepage": "https://github.com/tomaschochola/php-psr-7-http-message",
+  "keywords": [
+    "tomaschochola",
+    "TomasChochola",
+    "Tomas Chochola",
+    "Tomáš Chochola",
+    "php-psr-7-http-message"
+  ],
+  "license": "CC-BY-ND-4.0",
+  "name": "@tomaschochola/php-psr-7-http-message",
+  "repository": "github:tomaschochola/php-psr-7-http-message",
+  "sideEffects": false,
+  "type": "module"
+}
