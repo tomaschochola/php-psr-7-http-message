@@ -39,7 +39,7 @@ use const SEEK_SET;
 /**
  * @no-named-arguments
  */
-readonly class Stream implements StreamInterface, Stringable
+readonly class HttpStream implements StreamInterface, Stringable
 {
     /**
      * @var resource

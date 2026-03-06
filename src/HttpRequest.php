@@ -23,7 +23,7 @@ use Psr\Http\Message\UriInterface;
 /**
  * @no-named-arguments
  */
-readonly class Request extends Message implements RequestInterface
+readonly class HttpRequest extends HttpMessage implements RequestInterface
 {
     protected readonly string $method;
 
@@ -31,7 +31,7 @@ readonly class Request extends Message implements RequestInterface
 
     protected readonly UriInterface $uri;
 
-    public function __construct(StreamInterface $stream, Headers $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget)
+    public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget)
     {
         parent::__construct($stream, $headers, $protocolVersion);
 

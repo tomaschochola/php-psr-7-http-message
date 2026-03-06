@@ -24,15 +24,15 @@ use function implode;
 /**
  * @no-named-arguments
  */
-readonly class Message implements MessageInterface
+readonly class HttpMessage implements MessageInterface
 {
-    protected readonly Headers $headers;
+    protected readonly HttpHeaders $headers;
 
     protected readonly string $protocolVersion;
 
     protected readonly StreamInterface $stream;
 
-    public function __construct(StreamInterface $stream, Headers $headers, string $protocolVersion)
+    public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion)
     {
         $this->stream = $stream;
         $this->headers = $headers;

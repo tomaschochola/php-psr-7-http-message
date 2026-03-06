@@ -23,7 +23,7 @@ use function strtr;
 /**
  * @no-named-arguments
  */
-readonly class Headers
+readonly class HttpHeaders
 {
     /**
      * @var array<int|string, array<int|string, list<string>>>

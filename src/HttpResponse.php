@@ -22,13 +22,13 @@ use Psr\Http\Message\StreamInterface;
 /**
  * @no-named-arguments
  */
-readonly class Response extends Message implements ResponseInterface
+readonly class HttpResponse extends HttpMessage implements ResponseInterface
 {
     protected readonly int $code;
 
     protected readonly string $reasonPhrase;
 
-    public function __construct(StreamInterface $stream, Headers $headers, string $protocolVersion, int $code, string $reasonPhrase)
+    public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, int $code, string $reasonPhrase)
     {
         parent::__construct($stream, $headers, $protocolVersion);
 

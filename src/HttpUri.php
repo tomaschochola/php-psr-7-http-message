@@ -22,7 +22,7 @@ use Uri\Rfc3986\Uri as RfcUri;
 /**
  * @no-named-arguments
  */
-readonly class Uri implements UriInterface
+readonly class HttpUri implements UriInterface
 {
     protected readonly RfcUri $uri;
 

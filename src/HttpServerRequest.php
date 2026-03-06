@@ -25,7 +25,7 @@ use function array_key_exists;
 /**
  * @no-named-arguments
  */
-readonly class ServerRequest extends Request implements ServerRequestInterface
+readonly class HttpServerRequest extends HttpRequest implements ServerRequestInterface
 {
     /**
      * @var array<int|string, mixed>
@@ -67,7 +67,7 @@ readonly class ServerRequest extends Request implements ServerRequestInterface
      */
     public function __construct(
         StreamInterface $stream,
-        Headers $headers,
+        HttpHeaders $headers,
         string $protocolVersion,
         string $method,
         UriInterface $uri,
