@@ -28,42 +28,42 @@ use function array_key_exists;
 readonly class HttpServerRequest extends HttpRequest implements ServerRequestInterface
 {
     /**
-     * @var array<int|string, mixed>
+     * @var array<mixed, mixed>
      */
     protected readonly array $attributes;
 
     /**
-     * @var array<int|string, mixed>
+     * @var array<mixed, mixed>
      */
     protected readonly array $cookieParams;
 
     /**
-     * @var array<int|string, mixed>|object|null
+     * @var array<mixed, mixed>|object|null
      */
     protected readonly array|object|null $parsedBody;
 
     /**
-     * @var array<int|string, mixed>
+     * @var array<mixed, mixed>
      */
     protected readonly array $queryParams;
 
     /**
-     * @var array<int|string, mixed>
+     * @var array<mixed, mixed>
      */
     protected readonly array $serverParams;
 
     /**
-     * @var array<int|string, mixed>
+     * @var array<mixed, mixed>
      */
     protected readonly array $uploadedFiles;
 
     /**
-     * @param array<int|string, mixed> $serverParams
-     * @param array<int|string, mixed> $cookieParams
-     * @param array<int|string, mixed> $queryParams
-     * @param array<int|string, mixed> $uploadedFiles
-     * @param array<int|string, mixed>|object|null $parsedBody
-     * @param array<int|string, mixed> $attributes
+     * @param array<mixed, mixed> $serverParams
+     * @param array<mixed, mixed> $cookieParams
+     * @param array<mixed, mixed> $queryParams
+     * @param array<mixed, mixed> $uploadedFiles
+     * @param array<mixed, mixed>|object|null $parsedBody
+     * @param array<mixed, mixed> $attributes
      */
     public function __construct(
         StreamInterface $stream,
@@ -102,7 +102,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<int|string, mixed>
+     * @return array<mixed, mixed>
      */
     #[Override]
     public function getAttributes(): array
@@ -111,7 +111,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<int|string, mixed>
+     * @return array<mixed, mixed>
      */
     #[Override]
     public function getCookieParams(): array
@@ -120,7 +120,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<int|string, mixed>|object|null
+     * @return array<mixed, mixed>|object|null
      */
     #[Override]
     public function getParsedBody()
@@ -129,7 +129,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<int|string, mixed>
+     * @return array<mixed, mixed>
      */
     #[Override]
     public function getQueryParams(): array
@@ -138,7 +138,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<int|string, mixed>
+     * @return array<mixed, mixed>
      */
     #[Override]
     public function getServerParams(): array
@@ -147,7 +147,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<int|string, mixed>
+     * @return array<mixed, mixed>
      */
     #[Override]
     public function getUploadedFiles(): array
@@ -168,7 +168,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @param array<int|string, mixed> $cookies
+     * @param array<mixed, mixed> $cookies
      */
     #[Override]
     public function withCookieParams(array $cookies): static
@@ -179,7 +179,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @param array<int|string, mixed>|object|null $data
+     * @param array<mixed, mixed>|object|null $data
      */
     #[Override]
     public function withParsedBody(mixed $data): static
@@ -190,7 +190,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @param array<int|string, mixed> $query
+     * @param array<mixed, mixed> $query
      */
     #[Override]
     public function withQueryParams(array $query): static
@@ -201,7 +201,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @param array<int|string, mixed> $uploadedFiles
+     * @param array<mixed, mixed> $uploadedFiles
      */
     #[Override]
     public function withUploadedFiles(array $uploadedFiles): static

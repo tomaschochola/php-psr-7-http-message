@@ -26,12 +26,12 @@ use function strtr;
 readonly class HttpHeaders
 {
     /**
-     * @var array<int|string, array<int|string, list<string>>>
+     * @var array<mixed, array<mixed, list<string>>>
      */
     protected readonly array $headers;
 
     /**
-     * @param array<int|string, array<int|string, list<string>>> $headers
+     * @param array<mixed, array<mixed, list<string>>> $headers
      */
     public function __construct(array $headers)
     {
@@ -39,7 +39,7 @@ readonly class HttpHeaders
     }
 
     /**
-     * @param array<int|string, string>|string $value
+     * @param array<mixed, string>|string $value
      */
     public function add(string $key, array|string $value): static
     {
@@ -54,7 +54,7 @@ readonly class HttpHeaders
     }
 
     /**
-     * @return array<int|string, list<string>>
+     * @return array<mixed, list<string>>
      */
     public function all(): array
     {
@@ -70,7 +70,7 @@ readonly class HttpHeaders
     }
 
     /**
-     * @return array<int|string, string>
+     * @return array<mixed, string>
      */
     public function get(string $key): array
     {
@@ -106,7 +106,7 @@ readonly class HttpHeaders
     }
 
     /**
-     * @param array<int|string, string>|string $value
+     * @param array<mixed, string>|string $value
      */
     public function set(string $key, array|string $value): static
     {
