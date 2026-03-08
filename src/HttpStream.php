@@ -131,7 +131,14 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isReadable(): bool
     {
-        return in_array(stream_get_meta_data($this->resource)['mode'], ['r', 'a+', 'ab+', 'w+', 'wb+', 'x+', 'xb+', 'c+', 'cb+'], true);
+        return in_array(stream_get_meta_data($this->resource)['mode'], [
+            'r', 'rb',
+            'r+', 'rb+', 'r+b',
+            'w+', 'wb+', 'w+b',
+            'a+', 'ab+', 'a+b',
+            'x+', 'xb+', 'x+b',
+            'c+', 'cb+', 'c+b',
+        ], true);
     }
 
     #[Override]
@@ -143,7 +150,17 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isWritable(): bool
     {
-        return in_array(stream_get_meta_data($this->resource)['mode'], ['a', 'w', 'r+', 'rb+', 'rw', 'x', 'c'], true);
+        return in_array(stream_get_meta_data($this->resource)['mode'], [
+            'w', 'wb',
+            'w+', 'wb+', 'w+b',
+            'a', 'ab',
+            'a+', 'ab+', 'a+b',
+            'x', 'xb',
+            'x+', 'xb+', 'x+b',
+            'c', 'cb',
+            'c+', 'cb+', 'c+b',
+            'r+', 'rb+', 'r+b',
+        ], true);
     }
 
     #[Override]

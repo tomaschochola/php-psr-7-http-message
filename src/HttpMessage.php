@@ -54,7 +54,7 @@ readonly class HttpMessage implements MessageInterface
     #[Override]
     public function getHeaderLine(string $name): string
     {
-        return implode(', ', $this->headers->get($name));
+        return implode(',', $this->headers->get($name));
     }
 
     #[Override]
