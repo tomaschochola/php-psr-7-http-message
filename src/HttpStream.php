@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace TomasChochola\Psr\Http\Message;
 
 use InvalidArgumentException;
+use NoDiscard;
 use Override;
 use Psr\Http\Message\StreamInterface;
 use Stringable;
@@ -44,7 +45,7 @@ readonly class HttpStream implements StreamInterface, Stringable
     /**
      * @var resource
      */
-    protected readonly mixed $resource;
+    private readonly mixed $resource;
 
     /**
      * @param resource $resource
@@ -61,6 +62,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
     }
 
+    #[NoDiscard]
     #[Override]
     public function __toString(): string
     {
@@ -84,18 +86,21 @@ readonly class HttpStream implements StreamInterface, Stringable
     /**
      * @return resource
      */
+    #[NoDiscard]
     #[Override]
     public function detach(): mixed
     {
         return $this->resource;
     }
 
+    #[NoDiscard]
     #[Override]
     public function eof(): bool
     {
         return feof($this->resource);
     }
 
+    #[NoDiscard]
     #[Override]
     public function getContents(): string
     {
@@ -104,6 +109,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $content === false ? '' : $content;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getMetadata(string|null $key = null): mixed
     {
@@ -116,6 +122,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $meta[$key] ?? null;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getSize(): int|null
     {
@@ -128,6 +135,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $stat['size'];
     }
 
+    #[NoDiscard]
     #[Override]
     public function isReadable(): bool
     {
@@ -141,12 +149,14 @@ readonly class HttpStream implements StreamInterface, Stringable
         ], true);
     }
 
+    #[NoDiscard]
     #[Override]
     public function isSeekable(): bool
     {
         return stream_get_meta_data($this->resource)['seekable'];
     }
 
+    #[NoDiscard]
     #[Override]
     public function isWritable(): bool
     {
@@ -163,6 +173,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         ], true);
     }
 
+    #[NoDiscard]
     #[Override]
     public function read(int $length): string
     {
@@ -187,6 +198,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         fseek($this->resource, $offset, $whence);
     }
 
+    #[NoDiscard]
     #[Override]
     public function tell(): int
     {
@@ -195,6 +207,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $value === false ? 0 : $value;
     }
 
+    #[NoDiscard]
     #[Override]
     public function write(string $string): int
     {

@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Http\Message;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -30,32 +31,32 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @var array<mixed, mixed>
      */
-    protected readonly array $attributes;
+    private readonly array $attributes;
 
     /**
      * @var array<mixed, mixed>
      */
-    protected readonly array $cookieParams;
+    private readonly array $cookieParams;
 
     /**
      * @var array<mixed, mixed>|object|null
      */
-    protected readonly array|object|null $parsedBody;
+    private readonly array|object|null $parsedBody;
 
     /**
      * @var array<mixed, mixed>
      */
-    protected readonly array $queryParams;
+    private readonly array $queryParams;
 
     /**
      * @var array<mixed, mixed>
      */
-    protected readonly array $serverParams;
+    private readonly array $serverParams;
 
     /**
      * @var array<mixed, mixed>
      */
-    protected readonly array $uploadedFiles;
+    private readonly array $uploadedFiles;
 
     /**
      * @param array<mixed, mixed> $serverParams
@@ -89,6 +90,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
         $this->attributes = $attributes;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getAttribute(string $name, mixed $default = null): mixed
     {
@@ -104,6 +106,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
+    #[NoDiscard]
     #[Override]
     public function getAttributes(): array
     {
@@ -113,6 +116,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
+    #[NoDiscard]
     #[Override]
     public function getCookieParams(): array
     {
@@ -122,6 +126,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>|object|null
      */
+    #[NoDiscard]
     #[Override]
     public function getParsedBody()
     {
@@ -131,6 +136,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
+    #[NoDiscard]
     #[Override]
     public function getQueryParams(): array
     {
@@ -140,6 +146,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
+    #[NoDiscard]
     #[Override]
     public function getServerParams(): array
     {
@@ -149,12 +156,14 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
+    #[NoDiscard]
     #[Override]
     public function getUploadedFiles(): array
     {
         return $this->uploadedFiles;
     }
 
+    #[NoDiscard]
     #[Override]
     public function withAttribute(string $name, mixed $value): static
     {
@@ -170,6 +179,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed> $cookies
      */
+    #[NoDiscard]
     #[Override]
     public function withCookieParams(array $cookies): static
     {
@@ -181,6 +191,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed>|object|null $data
      */
+    #[NoDiscard]
     #[Override]
     public function withParsedBody(mixed $data): static
     {
@@ -192,6 +203,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed> $query
      */
+    #[NoDiscard]
     #[Override]
     public function withQueryParams(array $query): static
     {
@@ -203,6 +215,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed> $uploadedFiles
      */
+    #[NoDiscard]
     #[Override]
     public function withUploadedFiles(array $uploadedFiles): static
     {
@@ -211,6 +224,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withoutAttribute(string $name): static
     {

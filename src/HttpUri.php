@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Http\Message;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\UriInterface;
 use Uri\Rfc3986\Uri as RfcUri;
@@ -24,7 +25,7 @@ use Uri\Rfc3986\Uri as RfcUri;
  */
 readonly class HttpUri implements UriInterface
 {
-    protected readonly RfcUri $uri;
+    private readonly RfcUri $uri;
 
     public function __construct(
         RfcUri $uri,
@@ -32,12 +33,14 @@ readonly class HttpUri implements UriInterface
         $this->uri = $uri;
     }
 
+    #[NoDiscard]
     #[Override]
     public function __toString(): string
     {
         return $this->uri->toString();
     }
 
+    #[NoDiscard]
     #[Override]
     public function getAuthority(): string
     {
@@ -60,48 +63,56 @@ readonly class HttpUri implements UriInterface
         return $authority;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getFragment(): string
     {
         return $this->uri->getFragment() ?? '';
     }
 
+    #[NoDiscard]
     #[Override]
     public function getHost(): string
     {
         return $this->uri->getHost() ?? '';
     }
 
+    #[NoDiscard]
     #[Override]
     public function getPath(): string
     {
         return $this->uri->getPath();
     }
 
+    #[NoDiscard]
     #[Override]
     public function getPort(): int|null
     {
         return $this->uri->getPort() ?? null;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getQuery(): string
     {
         return $this->uri->getQuery() ?? '';
     }
 
+    #[NoDiscard]
     #[Override]
     public function getScheme(): string
     {
         return $this->uri->getScheme() ?? '';
     }
 
+    #[NoDiscard]
     #[Override]
     public function getUserInfo(): string
     {
         return $this->uri->getUserInfo() ?? '';
     }
 
+    #[NoDiscard]
     #[Override]
     public function withFragment(string $fragment): static
     {
@@ -110,6 +121,7 @@ readonly class HttpUri implements UriInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withHost(string $host): static
     {
@@ -118,6 +130,7 @@ readonly class HttpUri implements UriInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withPath(string $path): static
     {
@@ -126,6 +139,7 @@ readonly class HttpUri implements UriInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withPort(int|null $port): static
     {
@@ -134,6 +148,7 @@ readonly class HttpUri implements UriInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withQuery(string $query): static
     {
@@ -142,6 +157,7 @@ readonly class HttpUri implements UriInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withScheme(string $scheme): static
     {
@@ -150,6 +166,7 @@ readonly class HttpUri implements UriInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withUserInfo(string $user, string|null $password = null): static
     {

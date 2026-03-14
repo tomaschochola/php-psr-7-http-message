@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Http\Message;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -24,9 +25,9 @@ use Psr\Http\Message\StreamInterface;
  */
 readonly class HttpResponse extends HttpMessage implements ResponseInterface
 {
-    protected readonly int $code;
+    private readonly int $code;
 
-    protected readonly string $reasonPhrase;
+    private readonly string $reasonPhrase;
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, int $code, string $reasonPhrase)
     {
@@ -36,18 +37,21 @@ readonly class HttpResponse extends HttpMessage implements ResponseInterface
         $this->reasonPhrase = $reasonPhrase;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getReasonPhrase(): string
     {
         return $this->reasonPhrase;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getStatusCode(): int
     {
         return $this->code;
     }
 
+    #[NoDiscard]
     #[Override]
     public function withStatus(int $code, string $reasonPhrase = ''): static
     {

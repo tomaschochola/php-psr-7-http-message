@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Http\Message;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -25,11 +26,11 @@ use Psr\Http\Message\UriInterface;
  */
 readonly class HttpRequest extends HttpMessage implements RequestInterface
 {
-    protected readonly string $method;
+    private readonly string $method;
 
-    protected readonly string $requestTarget;
+    private readonly string $requestTarget;
 
-    protected readonly UriInterface $uri;
+    private readonly UriInterface $uri;
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget)
     {
@@ -40,12 +41,14 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         $this->requestTarget = $requestTarget;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getMethod(): string
     {
         return $this->method;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getRequestTarget(): string
     {
@@ -68,12 +71,14 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         return $target;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getUri(): UriInterface
     {
         return $this->uri;
     }
 
+    #[NoDiscard]
     #[Override]
     public function withMethod(string $method): static
     {
@@ -82,6 +87,7 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withRequestTarget(string $requestTarget): static
     {
@@ -90,6 +96,7 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withUri(UriInterface $uri, bool $preserveHost = false): static
     {

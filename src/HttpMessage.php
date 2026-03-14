@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace TomasChochola\Psr\Http\Message;
 
+use NoDiscard;
 use Override;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\StreamInterface;
@@ -26,11 +27,11 @@ use function implode;
  */
 readonly class HttpMessage implements MessageInterface
 {
-    protected readonly HttpHeaders $headers;
+    private readonly HttpHeaders $headers;
 
-    protected readonly string $protocolVersion;
+    private readonly string $protocolVersion;
 
-    protected readonly StreamInterface $stream;
+    private readonly StreamInterface $stream;
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion)
     {
@@ -39,42 +40,49 @@ readonly class HttpMessage implements MessageInterface
         $this->protocolVersion = $protocolVersion;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getBody(): StreamInterface
     {
         return $this->stream;
     }
 
+    #[NoDiscard]
     #[Override]
     public function getHeader(string $name): array
     {
         return $this->headers->get($name);
     }
 
+    #[NoDiscard]
     #[Override]
     public function getHeaderLine(string $name): string
     {
         return implode(',', $this->headers->get($name));
     }
 
+    #[NoDiscard]
     #[Override]
     public function getHeaders(): array
     {
         return $this->headers->all();
     }
 
+    #[NoDiscard]
     #[Override]
     public function getProtocolVersion(): string
     {
         return $this->protocolVersion;
     }
 
+    #[NoDiscard]
     #[Override]
     public function hasHeader(string $name): bool
     {
         return $this->headers->has($name);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withAddedHeader(string $name, mixed $value): static
     {
@@ -83,6 +91,7 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withBody(StreamInterface $body): static
     {
@@ -91,6 +100,7 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withHeader(string $name, mixed $value): static
     {
@@ -99,6 +109,7 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withProtocolVersion(string $version): static
     {
@@ -107,6 +118,7 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
+    #[NoDiscard]
     #[Override]
     public function withoutHeader(string $name): static
     {
