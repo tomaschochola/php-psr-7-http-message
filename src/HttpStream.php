@@ -89,7 +89,7 @@ readonly class HttpStream implements StreamInterface, Stringable
             if (is_resource($resource)) {
                 fclose($resource);
             }
-        } catch (\Throwable) {
+        } catch (Throwable) {
         }
     }
 
