@@ -27,7 +27,7 @@ use function strtr;
  *
  * @no-named-arguments
  */
-readonly class HttpHeaders
+final readonly class HttpHeaders
 {
     /**
      * @var array<mixed, array<mixed, list<string>>>
@@ -51,7 +51,7 @@ readonly class HttpHeaders
         // @phpstan-ignore-next-line assign.propertyType
         return clone ($this, [
             'headers' => array_merge_recursive($this->headers, [
-                static::key($key) => [
+                self::key($key) => [
                     $key => (array) $value,
                 ],
             ]),

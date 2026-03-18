@@ -21,6 +21,7 @@ use Override;
 use Psr\Http\Message\StreamInterface;
 use Stringable;
 use Throwable;
+use UnexpectedValueException;
 
 use function fclose;
 use function feof;
@@ -30,7 +31,9 @@ use function fstat;
 use function ftell;
 use function fwrite;
 use function in_array;
+use function is_int;
 use function is_resource;
+use function is_string;
 use function rewind;
 use function stream_get_contents;
 use function stream_get_meta_data;
@@ -43,9 +46,9 @@ use const SEEK_SET;
 readonly class HttpStream implements StreamInterface, Stringable
 {
     /**
-     * @var resource
+     * @var object{current?: resource}
      */
-    private readonly mixed $resource;
+    private readonly object $resource;
 
     /**
      * @param resource $resource
@@ -53,17 +56,30 @@ readonly class HttpStream implements StreamInterface, Stringable
     public function __construct(mixed $resource)
     {
         if (!is_resource($resource)) {
-            throw new \InvalidArgumentException('$resource');
+            throw new InvalidArgumentException('$resource');
         }
 
-        $this->resource = $resource;
+        $this->resource = new class($resource) {
+            /**
+             * @var resource
+             */
+            public mixed $current;
+
+            /**
+             * @param resource $current
+             */
+            public function __construct(mixed $current)
+            {
+                $this->current = $current;
+            }
+        };
     }
 
     public function __destruct()
     {
-        if (is_resource($this->resource)) {
-            if (!fclose($this->resource)) {
-                throw new \UnexpectedValueException('fclose');
+        if (isset($this->resource->current) && is_resource($this->resource->current)) {
+            if (!fclose($this->resource->current)) {
+                throw new UnexpectedValueException('fclose');
             }
         }
     }
@@ -86,8 +102,12 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function close(): void
     {
-        if (!fclose($this->resource)) {
-            throw new \UnexpectedValueException('fclose');
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        if (!fclose($this->resource->current)) {
+            throw new UnexpectedValueException('fclose');
         }
     }
 
@@ -98,24 +118,40 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function detach(): mixed
     {
-        return $this->resource;
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        $resource = $this->resource->current;
+
+        unset($this->resource->current);
+
+        return $resource;
     }
 
     #[NoDiscard]
     #[Override]
     public function eof(): bool
     {
-        return feof($this->resource);
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        return feof($this->resource->current);
     }
 
     #[NoDiscard]
     #[Override]
     public function getContents(): string
     {
-        $content = stream_get_contents($this->resource);
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        $content = stream_get_contents($this->resource->current);
 
         if (!is_string($content)) {
-            throw new \UnexpectedValueException('stream_get_contents');
+            throw new UnexpectedValueException('stream_get_contents');
         }
 
         return $content;
@@ -125,7 +161,11 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function getMetadata(string|null $key = null): mixed
     {
-        $meta = stream_get_meta_data($this->resource);
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        $meta = stream_get_meta_data($this->resource->current);
 
         if ($key === null) {
             return $meta;
@@ -138,10 +178,14 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function getSize(): int|null
     {
-        $stat = fstat($this->resource);
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        $stat = fstat($this->resource->current);
 
         if ($stat === false) {
-            throw new \UnexpectedValueException('fstat');
+            throw new UnexpectedValueException('fstat');
         }
 
         return $stat['size'];
@@ -151,7 +195,11 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isReadable(): bool
     {
-        return in_array(stream_get_meta_data($this->resource)['mode'], [
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        return in_array(stream_get_meta_data($this->resource->current)['mode'], [
             'r', 'rb',
             'r+', 'rb+', 'r+b',
             'w+', 'wb+', 'w+b',
@@ -165,14 +213,22 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isSeekable(): bool
     {
-        return stream_get_meta_data($this->resource)['seekable'];
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        return stream_get_meta_data($this->resource->current)['seekable'];
     }
 
     #[NoDiscard]
     #[Override]
     public function isWritable(): bool
     {
-        return in_array(stream_get_meta_data($this->resource)['mode'], [
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        return in_array(stream_get_meta_data($this->resource->current)['mode'], [
             'w', 'wb',
             'w+', 'wb+', 'w+b',
             'a', 'ab',
@@ -189,14 +245,18 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function read(int $length): string
     {
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
         if ($length < 1) {
             throw new InvalidArgumentException('$length');
         }
 
-        $value = fread($this->resource, $length);
+        $value = fread($this->resource->current, $length);
 
         if (!is_string($value)) {
-            throw new \UnexpectedValueException('fread');
+            throw new UnexpectedValueException('fread');
         }
 
         return $value;
@@ -205,16 +265,24 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function rewind(): void
     {
-        if (!rewind($this->resource)) {
-            throw new \UnexpectedValueException('rewind');
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        if (!rewind($this->resource->current)) {
+            throw new UnexpectedValueException('rewind');
         }
     }
 
     #[Override]
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
-        if (fseek($this->resource, $offset, $whence) !== 0) {
-            throw new \UnexpectedValueException('fseek');
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        if (fseek($this->resource->current, $offset, $whence) !== 0) {
+            throw new UnexpectedValueException('fseek');
         }
     }
 
@@ -222,10 +290,14 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function tell(): int
     {
-        $value = ftell($this->resource);
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        $value = ftell($this->resource->current);
 
         if (!is_int($value)) {
-            throw new \UnexpectedValueException('ftell');
+            throw new UnexpectedValueException('ftell');
         }
 
         return $value;
@@ -235,10 +307,14 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function write(string $string): int
     {
-        $value = fwrite($this->resource, $string);
+        if (!isset($this->resource->current)) {
+            throw new UnexpectedValueException('detached');
+        }
+
+        $value = fwrite($this->resource->current, $string);
 
         if (!is_int($value)) {
-            throw new \UnexpectedValueException('fwrite');
+            throw new UnexpectedValueException('fwrite');
         }
 
         return $value;
