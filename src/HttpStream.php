@@ -77,10 +77,19 @@ readonly class HttpStream implements StreamInterface, Stringable
 
     public function __destruct()
     {
-        if (isset($this->resource->current) && is_resource($this->resource->current)) {
-            if (!fclose($this->resource->current)) {
-                throw new UnexpectedValueException('fclose');
+        try {
+            if (!isset($this->resource->current)) {
+                return;
             }
+
+            $resource = $this->resource->current;
+
+            unset($this->resource->current);
+
+            if (is_resource($resource)) {
+                fclose($resource);
+            }
+        } catch (\Throwable) {
         }
     }
 
@@ -102,11 +111,15 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function close(): void
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
-        if (!fclose($this->resource->current)) {
+        $resource = $this->resource->current;
+
+        unset($this->resource->current);
+
+        if (!fclose($resource)) {
             throw new UnexpectedValueException('fclose');
         }
     }
@@ -118,8 +131,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function detach(): mixed
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         $resource = $this->resource->current;
@@ -133,8 +146,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function eof(): bool
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         return feof($this->resource->current);
@@ -144,8 +157,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function getContents(): string
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         $content = stream_get_contents($this->resource->current);
@@ -161,8 +174,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function getMetadata(string|null $key = null): mixed
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         $meta = stream_get_meta_data($this->resource->current);
@@ -178,8 +191,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function getSize(): int|null
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         $stat = fstat($this->resource->current);
@@ -195,8 +208,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isReadable(): bool
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         return in_array(stream_get_meta_data($this->resource->current)['mode'], [
@@ -213,8 +226,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isSeekable(): bool
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         return stream_get_meta_data($this->resource->current)['seekable'];
@@ -224,8 +237,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function isWritable(): bool
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         return in_array(stream_get_meta_data($this->resource->current)['mode'], [
@@ -245,8 +258,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function read(int $length): string
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         if ($length < 1) {
@@ -265,8 +278,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function rewind(): void
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         if (!rewind($this->resource->current)) {
@@ -277,8 +290,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         if (fseek($this->resource->current, $offset, $whence) !== 0) {
@@ -290,8 +303,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function tell(): int
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         $value = ftell($this->resource->current);
@@ -307,8 +320,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function write(string $string): int
     {
-        if (!isset($this->resource->current)) {
-            throw new UnexpectedValueException('detached');
+        if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
+            throw new UnexpectedValueException('$this->resource->current');
         }
 
         $value = fwrite($this->resource->current, $string);

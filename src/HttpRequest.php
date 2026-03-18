@@ -127,10 +127,6 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
             return $request->withHeader('Host', $incoming);
         }
 
-        if ($current !== '') {
-            return $request->withoutHeader('Host');
-        }
-
         return $request;
     }
 
