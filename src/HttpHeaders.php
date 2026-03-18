@@ -23,6 +23,8 @@ use function array_replace;
 use function strtr;
 
 /**
+ * @internal
+ *
  * @no-named-arguments
  */
 readonly class HttpHeaders

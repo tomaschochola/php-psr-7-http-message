@@ -52,13 +52,19 @@ readonly class HttpStream implements StreamInterface, Stringable
      */
     public function __construct(mixed $resource)
     {
+        if (!is_resource($resource)) {
+            throw new \InvalidArgumentException('$resource');
+        }
+
         $this->resource = $resource;
     }
 
     public function __destruct()
     {
         if (is_resource($this->resource)) {
-            fclose($this->resource);
+            if (!fclose($this->resource)) {
+                throw new \UnexpectedValueException('fclose');
+            }
         }
     }
 
@@ -80,7 +86,9 @@ readonly class HttpStream implements StreamInterface, Stringable
     #[Override]
     public function close(): void
     {
-        fclose($this->resource);
+        if (!fclose($this->resource)) {
+            throw new \UnexpectedValueException('fclose');
+        }
     }
 
     /**
@@ -106,7 +114,11 @@ readonly class HttpStream implements StreamInterface, Stringable
     {
         $content = stream_get_contents($this->resource);
 
-        return $content === false ? '' : $content;
+        if (!is_string($content)) {
+            throw new \UnexpectedValueException('stream_get_contents');
+        }
+
+        return $content;
     }
 
     #[NoDiscard]
@@ -129,7 +141,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         $stat = fstat($this->resource);
 
         if ($stat === false) {
-            return null;
+            throw new \UnexpectedValueException('fstat');
         }
 
         return $stat['size'];
@@ -183,19 +195,27 @@ readonly class HttpStream implements StreamInterface, Stringable
 
         $value = fread($this->resource, $length);
 
-        return $value === false ? '' : $value;
+        if (!is_string($value)) {
+            throw new \UnexpectedValueException('fread');
+        }
+
+        return $value;
     }
 
     #[Override]
     public function rewind(): void
     {
-        rewind($this->resource);
+        if (!rewind($this->resource)) {
+            throw new \UnexpectedValueException('rewind');
+        }
     }
 
     #[Override]
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
-        fseek($this->resource, $offset, $whence);
+        if (fseek($this->resource, $offset, $whence) !== 0) {
+            throw new \UnexpectedValueException('fseek');
+        }
     }
 
     #[NoDiscard]
@@ -204,7 +224,11 @@ readonly class HttpStream implements StreamInterface, Stringable
     {
         $value = ftell($this->resource);
 
-        return $value === false ? 0 : $value;
+        if (!is_int($value)) {
+            throw new \UnexpectedValueException('ftell');
+        }
+
+        return $value;
     }
 
     #[NoDiscard]
@@ -213,6 +237,10 @@ readonly class HttpStream implements StreamInterface, Stringable
     {
         $value = fwrite($this->resource, $string);
 
-        return $value === false ? 0 : $value;
+        if (!is_int($value)) {
+            throw new \UnexpectedValueException('fwrite');
+        }
+
+        return $value;
     }
 }

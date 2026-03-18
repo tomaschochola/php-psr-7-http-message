@@ -34,6 +34,14 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget)
     {
+        if (!$headers->has('Host')) {
+            $host = self::host($uri);
+
+            if ($host !== '') {
+                $headers = $headers->set('Host', $host);
+            }
+        }
+
         parent::__construct($stream, $headers, $protocolVersion);
 
         $this->method = $method;
@@ -100,12 +108,46 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
     #[Override]
     public function withUri(UriInterface $uri, bool $preserveHost = false): static
     {
-        if ($preserveHost) {
-            $uri = $uri->withHost($this->uri->getHost());
-        }
-
-        return clone ($this, [
+        $request = clone ($this, [
             'uri' => $uri,
         ]);
+
+        $current = $this->getHeaderLine('Host');
+        $incoming = self::host($uri);
+
+        if ($preserveHost) {
+            if ($current === '' && $incoming !== '') {
+                return $request->withHeader('Host', $incoming);
+            }
+
+            return $request;
+        }
+
+        if ($incoming !== '') {
+            return $request->withHeader('Host', $incoming);
+        }
+
+        if ($current !== '') {
+            return $request->withoutHeader('Host');
+        }
+
+        return $request;
+    }
+
+    private static function host(UriInterface $uri): string
+    {
+        $host = $uri->getHost();
+
+        if ($host === '') {
+            return '';
+        }
+
+        $port = $uri->getPort();
+
+        if ($port === null) {
+            return $host;
+        }
+
+        return $host . ':' . $port;
     }
 }
