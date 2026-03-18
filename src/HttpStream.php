@@ -46,7 +46,7 @@ use const SEEK_SET;
 readonly class HttpStream implements StreamInterface, Stringable
 {
     /**
-     * @var object{current?: resource}
+     * @var object{current: resource}
      */
     private readonly object $resource;
 
@@ -59,20 +59,7 @@ readonly class HttpStream implements StreamInterface, Stringable
             throw new InvalidArgumentException('$resource');
         }
 
-        $this->resource = new class($resource) {
-            /**
-             * @var resource
-             */
-            public mixed $current;
-
-            /**
-             * @param resource $current
-             */
-            public function __construct(mixed $current)
-            {
-                $this->current = $current;
-            }
-        };
+        $this->resource = (object) ['current' => $resource];
     }
 
     public function __destruct()
