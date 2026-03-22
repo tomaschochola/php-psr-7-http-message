@@ -66,20 +66,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
      * @param array<mixed, mixed>|object|null $parsedBody
      * @param array<mixed, mixed> $attributes
      */
-    public function __construct(
-        StreamInterface $stream,
-        HttpHeaders $headers,
-        string $protocolVersion,
-        string $method,
-        UriInterface $uri,
-        string $requestTarget,
-        array $serverParams,
-        array $cookieParams,
-        array $queryParams,
-        array $uploadedFiles,
-        array|object|null $parsedBody,
-        array $attributes,
-    ) {
+    public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget, array $serverParams, array $cookieParams, array $queryParams, array $uploadedFiles, array|object|null $parsedBody, array $attributes)
+    {
         parent::__construct($stream, $headers, $protocolVersion, $method, $uri, $requestTarget);
 
         $this->serverParams = $serverParams;

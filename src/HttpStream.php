@@ -23,6 +23,7 @@ use Stringable;
 use Throwable;
 use UnexpectedValueException;
 
+use function assert;
 use function fclose;
 use function feof;
 use function fread;
@@ -38,6 +39,7 @@ use function rewind;
 use function stream_get_contents;
 use function stream_get_meta_data;
 
+use const PHP_INT_MAX;
 use const SEEK_SET;
 
 /**
@@ -76,7 +78,8 @@ readonly class HttpStream implements StreamInterface, Stringable
             if (is_resource($resource)) {
                 fclose($resource);
             }
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+            assert($e->getCode() === PHP_INT_MAX);
         }
     }
 
@@ -90,7 +93,9 @@ readonly class HttpStream implements StreamInterface, Stringable
             }
 
             return $this->getContents();
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+            assert($e->getCode() === PHP_INT_MAX);
+
             return '';
         }
     }

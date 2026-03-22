@@ -18,18 +18,18 @@ namespace TomasChochola\Psr\Http\Message;
 use NoDiscard;
 use Override;
 use Psr\Http\Message\UriInterface;
+use Stringable;
 use Uri\Rfc3986\Uri as RfcUri;
 
 /**
  * @no-named-arguments
  */
-readonly class HttpUri implements UriInterface
+readonly class HttpUri implements Stringable, UriInterface
 {
     private readonly RfcUri $uri;
 
-    public function __construct(
-        RfcUri $uri,
-    ) {
+    public function __construct(RfcUri $uri)
+    {
         $this->uri = $uri;
     }
 
