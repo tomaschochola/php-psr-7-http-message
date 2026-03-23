@@ -19,6 +19,7 @@ use NoDiscard;
 use Override;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use Psr\Http\Message\UriInterface;
 
 use function array_key_exists;
@@ -54,7 +55,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     private readonly array $serverParams;
 
     /**
-     * @var array<mixed, mixed>
+     * @var array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface>>>>>
      */
     private readonly array $uploadedFiles;
 
@@ -62,7 +63,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
      * @param array<mixed, mixed> $serverParams
      * @param array<mixed, mixed> $cookieParams
      * @param array<mixed, mixed> $queryParams
-     * @param array<mixed, mixed> $uploadedFiles
+     * @param array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface>>>>> $uploadedFiles
      * @param array<mixed, mixed>|object|null $parsedBody
      * @param array<mixed, mixed> $attributes
      */
@@ -142,7 +143,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @return array<mixed, mixed>
+     * @return array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface>>>>>
      */
     #[NoDiscard]
     #[Override]
@@ -201,7 +202,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     }
 
     /**
-     * @param array<mixed, mixed> $uploadedFiles
+     * @param array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface|array<mixed, UploadedFileInterface>>>>> $uploadedFiles
      */
     #[NoDiscard]
     #[Override]
