@@ -20,15 +20,16 @@ use Override;
 use Psr\Http\Message\UriInterface;
 use Stringable;
 use Uri\Rfc3986\Uri as RfcUri;
+use Uri\WhatWg\Url as WhatWgUri;
 
 /**
  * @no-named-arguments
  */
 readonly class HttpUri implements Stringable, UriInterface
 {
-    private readonly RfcUri $uri;
+    private readonly RfcUri|WhatWgUri $uri;
 
-    public function __construct(RfcUri $uri)
+    public function __construct(RfcUri|WhatWgUri $uri)
     {
         $this->uri = $uri;
     }
@@ -37,6 +38,10 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function __toString(): string
     {
+        if ($this->uri instanceof WhatWgUri) {
+            return $this->uri->toAsciiString();
+        }
+
         return $this->uri->toString();
     }
 
@@ -74,6 +79,10 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function getHost(): string
     {
+        if ($this->uri instanceof WhatWgUri) {
+            return $this->uri->getAsciiHost() ?? '';
+        }
+
         return $this->uri->getHost() ?? '';
     }
 
@@ -109,6 +118,21 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function getUserInfo(): string
     {
+        if ($this->uri instanceof WhatWgUri) {
+            $password = $this->uri->getPassword();
+            $username = $this->uri->getUsername();
+
+            if ($username === null) {
+                return '';
+            }
+
+            if ($password === null) {
+                return $username;
+            }
+
+            return $username . ':' . $password;
+        }
+
         return $this->uri->getUserInfo() ?? '';
     }
 
@@ -170,6 +194,12 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function withUserInfo(string $user, string|null $password = null): static
     {
+        if ($this->uri instanceof WhatWgUri) {
+            return clone ($this, [
+                'uri' => $this->uri->withUsername($user)->withPassword($password),
+            ]);
+        }
+
         return clone ($this, [
             'uri' => $this->uri->withUserInfo($password === null ? $user : ($user . ':' . $password)),
         ]);
