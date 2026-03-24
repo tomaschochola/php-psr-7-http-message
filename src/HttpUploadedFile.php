@@ -22,10 +22,11 @@ use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 use UnexpectedValueException;
 
+use function fclose;
 use function fopen;
-use function is_uploaded_file;
-use function move_uploaded_file;
-use function rename;
+use function fwrite;
+use function is_resource;
+use function mb_strlen;
 
 use const UPLOAD_ERR_OK;
 
@@ -40,18 +41,18 @@ readonly class HttpUploadedFile implements UploadedFileInterface
 
     private readonly int $error;
 
+    private readonly int|null $size;
+
     /**
      * @var object{moved: bool}
      */
     private readonly object $state;
 
-    private readonly int|null $size;
+    private readonly StreamInterface $stream;
 
-    private readonly string $tmpName;
-
-    public function __construct(string $tmpName, int|null $size, int $error, string|null $clientFilename = null, string|null $clientMediaType = null)
+    public function __construct(StreamInterface $stream, int|null $size, int $error, string|null $clientFilename = null, string|null $clientMediaType = null)
     {
-        $this->tmpName = $tmpName;
+        $this->stream = $stream;
         $this->size = $size;
         $this->error = $error;
         $this->clientFilename = $clientFilename;
@@ -99,13 +100,7 @@ readonly class HttpUploadedFile implements UploadedFileInterface
             throw new RuntimeException('$this->error');
         }
 
-        $resource = fopen($this->tmpName, 'rb');
-
-        if ($resource === false) {
-            throw new UnexpectedValueException('fopen');
-        }
-
-        return new HttpStream($resource);
+        return $this->stream;
     }
 
     #[Override]
@@ -119,12 +114,26 @@ readonly class HttpUploadedFile implements UploadedFileInterface
             throw new RuntimeException('$this->error');
         }
 
-        if (is_uploaded_file($this->tmpName)) {
-            if (!move_uploaded_file($this->tmpName, $targetPath)) {
-                throw new UnexpectedValueException('move_uploaded_file');
+        if ($this->stream->isSeekable()) {
+            $this->stream->rewind();
+        }
+
+        $target = fopen($targetPath, 'w');
+
+        if (!is_resource($target)) {
+            throw new UnexpectedValueException('fopen');
+        }
+
+        while (!$this->stream->eof()) {
+            $chunk = $this->stream->read(524_288);
+
+            if (fwrite($target, $chunk) !== mb_strlen($chunk, '8bit')) {
+                throw new UnexpectedValueException('fwrite');
             }
-        } elseif (!rename($this->tmpName, $targetPath)) {
-            throw new UnexpectedValueException('rename');
+        }
+
+        if (!fclose($target)) {
+            throw new UnexpectedValueException('fclose');
         }
 
         $this->state->moved = true;
