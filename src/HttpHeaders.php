@@ -23,11 +23,9 @@ use function array_replace;
 use function strtr;
 
 /**
- * @internal
- *
  * @no-named-arguments
  */
-final readonly class HttpHeaders
+readonly class HttpHeaders
 {
     /**
      * @var array<mixed, array<mixed, list<string>>>
