@@ -19,17 +19,17 @@ use NoDiscard;
 use Override;
 use Psr\Http\Message\UriInterface;
 use Stringable;
-use Uri\Rfc3986\Uri as RfcUri;
-use Uri\WhatWg\Url as WhatWgUri;
+use Uri\Rfc3986\Uri;
+use Uri\WhatWg\Url;
 
 /**
  * @no-named-arguments
  */
 readonly class HttpUri implements Stringable, UriInterface
 {
-    private readonly RfcUri|WhatWgUri $uri;
+    private readonly Uri|Url $uri;
 
-    public function __construct(RfcUri|WhatWgUri $uri)
+    public function __construct(Uri|Url $uri)
     {
         $this->uri = $uri;
     }
@@ -38,7 +38,7 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function __toString(): string
     {
-        if ($this->uri instanceof WhatWgUri) {
+        if ($this->uri instanceof Url) {
             return $this->uri->toAsciiString();
         }
 
@@ -79,7 +79,7 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function getHost(): string
     {
-        if ($this->uri instanceof WhatWgUri) {
+        if ($this->uri instanceof Url) {
             return $this->uri->getAsciiHost() ?? '';
         }
 
@@ -118,7 +118,7 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function getUserInfo(): string
     {
-        if ($this->uri instanceof WhatWgUri) {
+        if ($this->uri instanceof Url) {
             $password = $this->uri->getPassword();
             $username = $this->uri->getUsername();
 
@@ -194,7 +194,7 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override]
     public function withUserInfo(string $user, string|null $password = null): static
     {
-        if ($this->uri instanceof WhatWgUri) {
+        if ($this->uri instanceof Url) {
             return clone ($this, [
                 'uri' => $this->uri->withUsername($user)->withPassword($password),
             ]);
