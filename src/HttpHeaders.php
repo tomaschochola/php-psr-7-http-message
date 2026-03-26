@@ -79,7 +79,7 @@ readonly class HttpHeaders
     #[NoDiscard]
     public function get(string $key): array
     {
-        $bucket = $this->headers[static::key($key)] ?? null;
+        $bucket = $this->headers[self::key($key)] ?? null;
 
         if ($bucket === null) {
             return [];
@@ -97,7 +97,7 @@ readonly class HttpHeaders
     #[NoDiscard]
     public function has(string $key): bool
     {
-        return isset($this->headers[static::key($key)]);
+        return isset($this->headers[self::key($key)]);
     }
 
     #[NoDiscard]
@@ -105,7 +105,7 @@ readonly class HttpHeaders
     {
         $clone = $this->headers;
 
-        unset($clone[static::key($key)]);
+        unset($clone[self::key($key)]);
 
         return clone ($this, [
             'headers' => $clone,
@@ -121,7 +121,7 @@ readonly class HttpHeaders
         // @phpstan-ignore-next-line assign.propertyType
         return clone ($this, [
             'headers' => array_replace($this->headers, [
-                static::key($key) => [
+                self::key($key) => [
                     $key => (array) $value,
                 ],
             ]),
