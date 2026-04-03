@@ -56,10 +56,6 @@ readonly class HttpStream implements StreamInterface, Stringable
      */
     public function __construct(mixed $resource)
     {
-        if (!is_resource($resource)) {
-            throw new InvalidArgumentException('$resource');
-        }
-
         $this->resource = (object) ['current' => $resource];
     }
 
