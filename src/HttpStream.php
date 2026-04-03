@@ -23,7 +23,6 @@ use Stringable;
 use Throwable;
 use UnexpectedValueException;
 
-use function assert;
 use function fclose;
 use function feof;
 use function fread;
@@ -66,20 +65,16 @@ readonly class HttpStream implements StreamInterface, Stringable
 
     public function __destruct()
     {
-        try {
-            if (!isset($this->resource->current)) {
-                return;
-            }
+        if (!isset($this->resource->current)) {
+            return;
+        }
 
-            $resource = $this->resource->current;
+        $resource = $this->resource->current;
 
-            unset($this->resource->current);
+        unset($this->resource->current);
 
-            if (is_resource($resource)) {
-                fclose($resource);
-            }
-        } catch (Throwable $e) {
-            assert($e->getCode() === PHP_INT_MAX);
+        if (is_resource($resource)) {
+            fclose($resource);
         }
     }
 
@@ -93,9 +88,7 @@ readonly class HttpStream implements StreamInterface, Stringable
             }
 
             return $this->getContents();
-        } catch (Throwable $e) {
-            assert($e->getCode() === PHP_INT_MAX);
-
+        } catch (Throwable) {
             return '';
         }
     }
