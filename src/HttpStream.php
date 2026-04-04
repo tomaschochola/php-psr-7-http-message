@@ -38,7 +38,6 @@ use function rewind;
 use function stream_get_contents;
 use function stream_get_meta_data;
 
-use const PHP_INT_MAX;
 use const SEEK_SET;
 
 /**
