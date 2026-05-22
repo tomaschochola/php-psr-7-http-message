@@ -27,11 +27,11 @@ use function implode;
  */
 readonly class HttpMessage implements MessageInterface
 {
-    private readonly HttpHeaders $headers;
+    private HttpHeaders $headers;
 
-    private readonly string $protocolVersion;
+    private string $protocolVersion;
 
-    private readonly StreamInterface $stream;
+    private StreamInterface $stream;
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion)
     {
@@ -40,50 +40,50 @@ readonly class HttpMessage implements MessageInterface
         $this->protocolVersion = $protocolVersion;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getBody(): StreamInterface
     {
         return $this->stream;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getHeader(string $name): array
     {
         return $this->headers->get($name);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getHeaderLine(string $name): string
     {
         return implode(',', $this->headers->get($name));
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getHeaders(): array
     {
         return $this->headers->all();
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getProtocolVersion(): string
     {
         return $this->protocolVersion;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function hasHeader(string $name): bool
     {
         return $this->headers->has($name);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withAddedHeader(string $name, mixed $value): static
     {
         return clone ($this, [
@@ -91,8 +91,8 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withBody(StreamInterface $body): static
     {
         return clone ($this, [
@@ -100,8 +100,8 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withHeader(string $name, mixed $value): static
     {
         return clone ($this, [
@@ -109,8 +109,8 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withProtocolVersion(string $version): static
     {
         return clone ($this, [
@@ -118,8 +118,8 @@ readonly class HttpMessage implements MessageInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withoutHeader(string $name): static
     {
         return clone ($this, [

@@ -26,11 +26,11 @@ use Psr\Http\Message\UriInterface;
  */
 readonly class HttpRequest extends HttpMessage implements RequestInterface
 {
-    private readonly string $method;
+    private string $method;
 
-    private readonly string $requestTarget;
+    private string $requestTarget;
 
-    private readonly UriInterface $uri;
+    private UriInterface $uri;
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget)
     {
@@ -49,15 +49,15 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         $this->requestTarget = $requestTarget;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getMethod(): string
     {
         return $this->method;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getRequestTarget(): string
     {
         if ($this->requestTarget !== '') {
@@ -79,15 +79,15 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         return $target;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getUri(): UriInterface
     {
         return $this->uri;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withMethod(string $method): static
     {
         return clone ($this, [
@@ -95,8 +95,8 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withRequestTarget(string $requestTarget): static
     {
         return clone ($this, [
@@ -104,8 +104,8 @@ readonly class HttpRequest extends HttpMessage implements RequestInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withUri(UriInterface $uri, bool $preserveHost = false): static
     {
         $request = clone ($this, [

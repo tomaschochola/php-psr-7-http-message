@@ -30,7 +30,7 @@ readonly class HttpHeaders
     /**
      * @var array<mixed, array<mixed, list<string>>>
      */
-    private readonly array $headers;
+    private array $headers;
 
     /**
      * @param array<mixed, array<mixed, list<string>>> $headers
@@ -43,8 +43,8 @@ readonly class HttpHeaders
     /**
      * @param array<mixed, string>|string $value
      */
-    #[NoDiscard]
-    public function add(string $key, array|string $value): static
+    #[NoDiscard()]
+    public function add(string $key, array | string $value): static
     {
         // @phpstan-ignore-next-line assign.propertyType
         return clone ($this, [
@@ -59,7 +59,7 @@ readonly class HttpHeaders
     /**
      * @return array<mixed, list<string>>
      */
-    #[NoDiscard]
+    #[NoDiscard()]
     public function all(): array
     {
         $result = [];
@@ -76,7 +76,7 @@ readonly class HttpHeaders
     /**
      * @return array<mixed, string>
      */
-    #[NoDiscard]
+    #[NoDiscard()]
     public function get(string $key): array
     {
         $bucket = $this->headers[self::key($key)] ?? null;
@@ -94,13 +94,13 @@ readonly class HttpHeaders
         return $result;
     }
 
-    #[NoDiscard]
+    #[NoDiscard()]
     public function has(string $key): bool
     {
         return isset($this->headers[self::key($key)]);
     }
 
-    #[NoDiscard]
+    #[NoDiscard()]
     public function remove(string $key): static
     {
         $clone = $this->headers;
@@ -115,8 +115,8 @@ readonly class HttpHeaders
     /**
      * @param array<mixed, string>|string $value
      */
-    #[NoDiscard]
-    public function set(string $key, array|string $value): static
+    #[NoDiscard()]
+    public function set(string $key, array | string $value): static
     {
         // @phpstan-ignore-next-line assign.propertyType
         return clone ($this, [
@@ -128,7 +128,7 @@ readonly class HttpHeaders
         ]);
     }
 
-    #[NoDiscard]
+    #[NoDiscard()]
     private static function key(string $key): string
     {
         return strtr($key, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');

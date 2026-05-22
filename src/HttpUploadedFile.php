@@ -35,22 +35,22 @@ use const UPLOAD_ERR_OK;
  */
 readonly class HttpUploadedFile implements UploadedFileInterface
 {
-    private readonly string|null $clientFilename;
+    private string | null $clientFilename;
 
-    private readonly string|null $clientMediaType;
+    private string | null $clientMediaType;
 
-    private readonly int $error;
+    private int $error;
 
-    private readonly int|null $size;
+    private int | null $size;
 
     /**
      * @var object{moved: bool}
      */
-    private readonly object $state;
+    private object $state;
 
-    private readonly StreamInterface $stream;
+    private StreamInterface $stream;
 
-    public function __construct(StreamInterface $stream, int|null $size, int $error, string|null $clientFilename = null, string|null $clientMediaType = null)
+    public function __construct(StreamInterface $stream, int | null $size, int $error, string | null $clientFilename = null, string | null $clientMediaType = null)
     {
         $this->stream = $stream;
         $this->size = $size;
@@ -60,36 +60,36 @@ readonly class HttpUploadedFile implements UploadedFileInterface
         $this->state = (object) ['moved' => false];
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function getClientFilename(): string|null
+    #[NoDiscard()]
+    #[Override()]
+    public function getClientFilename(): string | null
     {
         return $this->clientFilename;
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function getClientMediaType(): string|null
+    #[NoDiscard()]
+    #[Override()]
+    public function getClientMediaType(): string | null
     {
         return $this->clientMediaType;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getError(): int
     {
         return $this->error;
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function getSize(): int|null
+    #[NoDiscard()]
+    #[Override()]
+    public function getSize(): int | null
     {
         return $this->size;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getStream(): StreamInterface
     {
         if ($this->state->moved) {
@@ -103,7 +103,7 @@ readonly class HttpUploadedFile implements UploadedFileInterface
         return $this->stream;
     }
 
-    #[Override]
+    #[Override()]
     public function moveTo(string $targetPath): void
     {
         if ($this->state->moved) {
@@ -118,7 +118,7 @@ readonly class HttpUploadedFile implements UploadedFileInterface
             $this->stream->rewind();
         }
 
-        $target = fopen($targetPath, 'w');
+        $target = fopen($targetPath, 'wb');
 
         if (!is_resource($target)) {
             throw new UnexpectedValueException('fopen');

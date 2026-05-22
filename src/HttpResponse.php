@@ -25,9 +25,9 @@ use Psr\Http\Message\StreamInterface;
  */
 readonly class HttpResponse extends HttpMessage implements ResponseInterface
 {
-    private readonly int $code;
+    private int $code;
 
-    private readonly string $reasonPhrase;
+    private string $reasonPhrase;
 
     public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, int $code, string $reasonPhrase)
     {
@@ -37,22 +37,22 @@ readonly class HttpResponse extends HttpMessage implements ResponseInterface
         $this->reasonPhrase = $reasonPhrase;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getReasonPhrase(): string
     {
         return $this->reasonPhrase;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getStatusCode(): int
     {
         return $this->code;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withStatus(int $code, string $reasonPhrase = ''): static
     {
         return clone ($this, [

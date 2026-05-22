@@ -48,7 +48,7 @@ readonly class HttpStream implements StreamInterface, Stringable
     /**
      * @var object{current: resource}
      */
-    private readonly object $resource;
+    private object $resource;
 
     /**
      * @param resource $resource
@@ -73,8 +73,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function __toString(): string
     {
         try {
@@ -88,7 +88,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
     }
 
-    #[Override]
+    #[Override()]
     public function close(): void
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -107,8 +107,8 @@ readonly class HttpStream implements StreamInterface, Stringable
     /**
      * @return resource
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function detach(): mixed
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -122,8 +122,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $resource;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function eof(): bool
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -133,8 +133,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         return feof($this->resource->current);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getContents(): string
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -150,9 +150,9 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $content;
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function getMetadata(string|null $key = null): mixed
+    #[NoDiscard()]
+    #[Override()]
+    public function getMetadata(string | null $key = null): mixed
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
             throw new UnexpectedValueException('$this->resource->current');
@@ -167,9 +167,9 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $meta[$key] ?? null;
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function getSize(): int|null
+    #[NoDiscard()]
+    #[Override()]
+    public function getSize(): int | null
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
             throw new UnexpectedValueException('$this->resource->current');
@@ -184,8 +184,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $stat['size'];
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function isReadable(): bool
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -202,8 +202,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         ], true);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function isSeekable(): bool
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -213,8 +213,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         return stream_get_meta_data($this->resource->current)['seekable'];
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function isWritable(): bool
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -234,8 +234,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         ], true);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function read(int $length): string
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -255,7 +255,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $value;
     }
 
-    #[Override]
+    #[Override()]
     public function rewind(): void
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -267,7 +267,7 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
     }
 
-    #[Override]
+    #[Override()]
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -279,8 +279,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function tell(): int
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {
@@ -296,8 +296,8 @@ readonly class HttpStream implements StreamInterface, Stringable
         return $value;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function write(string $string): int
     {
         if (!isset($this->resource->current) || !is_resource($this->resource->current)) {

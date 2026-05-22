@@ -27,15 +27,15 @@ use Uri\WhatWg\Url;
  */
 readonly class HttpUri implements Stringable, UriInterface
 {
-    private readonly Uri|Url $uri;
+    private Uri | Url $uri;
 
-    public function __construct(Uri|Url $uri)
+    public function __construct(Uri | Url $uri)
     {
         $this->uri = $uri;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function __toString(): string
     {
         if ($this->uri instanceof Url) {
@@ -45,8 +45,8 @@ readonly class HttpUri implements Stringable, UriInterface
         return $this->uri->toString();
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getAuthority(): string
     {
         $authority = '';
@@ -68,15 +68,15 @@ readonly class HttpUri implements Stringable, UriInterface
         return $authority;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getFragment(): string
     {
         return $this->uri->getFragment() ?? '';
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getHost(): string
     {
         if ($this->uri instanceof Url) {
@@ -86,36 +86,36 @@ readonly class HttpUri implements Stringable, UriInterface
         return $this->uri->getHost() ?? '';
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getPath(): string
     {
         return $this->uri->getPath();
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function getPort(): int|null
+    #[NoDiscard()]
+    #[Override()]
+    public function getPort(): int | null
     {
         return $this->uri->getPort() ?? null;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getQuery(): string
     {
         return $this->uri->getQuery() ?? '';
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getScheme(): string
     {
         return $this->uri->getScheme() ?? '';
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getUserInfo(): string
     {
         if ($this->uri instanceof Url) {
@@ -136,8 +136,8 @@ readonly class HttpUri implements Stringable, UriInterface
         return $this->uri->getUserInfo() ?? '';
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withFragment(string $fragment): static
     {
         return clone ($this, [
@@ -145,8 +145,8 @@ readonly class HttpUri implements Stringable, UriInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withHost(string $host): static
     {
         return clone ($this, [
@@ -154,8 +154,8 @@ readonly class HttpUri implements Stringable, UriInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withPath(string $path): static
     {
         return clone ($this, [
@@ -163,17 +163,17 @@ readonly class HttpUri implements Stringable, UriInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function withPort(int|null $port): static
+    #[NoDiscard()]
+    #[Override()]
+    public function withPort(int | null $port): static
     {
         return clone ($this, [
             'uri' => $this->uri->withPort($port),
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withQuery(string $query): static
     {
         return clone ($this, [
@@ -181,8 +181,8 @@ readonly class HttpUri implements Stringable, UriInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withScheme(string $scheme): static
     {
         return clone ($this, [
@@ -190,9 +190,9 @@ readonly class HttpUri implements Stringable, UriInterface
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
-    public function withUserInfo(string $user, string|null $password = null): static
+    #[NoDiscard()]
+    #[Override()]
+    public function withUserInfo(string $user, string | null $password = null): static
     {
         if ($this->uri instanceof Url) {
             return clone ($this, [

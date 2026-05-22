@@ -31,32 +31,32 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @var array<mixed, mixed>
      */
-    private readonly array $attributes;
+    private array $attributes;
 
     /**
      * @var array<mixed, mixed>
      */
-    private readonly array $cookieParams;
+    private array $cookieParams;
 
     /**
      * @var array<mixed, mixed>|object|null
      */
-    private readonly array|object|null $parsedBody;
+    private array | object | null $parsedBody;
 
     /**
      * @var array<mixed, mixed>
      */
-    private readonly array $queryParams;
+    private array $queryParams;
 
     /**
      * @var array<mixed, mixed>
      */
-    private readonly array $serverParams;
+    private array $serverParams;
 
     /**
      * @var array<mixed, mixed>
      */
-    private readonly array $uploadedFiles;
+    private array $uploadedFiles;
 
     /**
      * @param array<mixed, mixed> $serverParams
@@ -66,7 +66,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
      * @param array<mixed, mixed>|object|null $parsedBody
      * @param array<mixed, mixed> $attributes
      */
-    public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget, array $serverParams, array $cookieParams, array $queryParams, array $uploadedFiles, array|object|null $parsedBody, array $attributes)
+    public function __construct(StreamInterface $stream, HttpHeaders $headers, string $protocolVersion, string $method, UriInterface $uri, string $requestTarget, array $serverParams, array $cookieParams, array $queryParams, array $uploadedFiles, array | object | null $parsedBody, array $attributes)
     {
         parent::__construct($stream, $headers, $protocolVersion, $method, $uri, $requestTarget);
 
@@ -78,8 +78,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
         $this->attributes = $attributes;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getAttribute(string $name, mixed $default = null): mixed
     {
         $value = $this->attributes[$name] ?? null;
@@ -94,8 +94,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getAttributes(): array
     {
         return $this->attributes;
@@ -104,8 +104,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getCookieParams(): array
     {
         return $this->cookieParams;
@@ -114,8 +114,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>|object|null
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getParsedBody()
     {
         return $this->parsedBody;
@@ -124,8 +124,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getQueryParams(): array
     {
         return $this->queryParams;
@@ -134,8 +134,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getServerParams(): array
     {
         return $this->serverParams;
@@ -144,15 +144,15 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @return array<mixed, mixed>
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function getUploadedFiles(): array
     {
         return $this->uploadedFiles;
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withAttribute(string $name, mixed $value): static
     {
         $clone = $this->attributes;
@@ -167,8 +167,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed> $cookies
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withCookieParams(array $cookies): static
     {
         return clone ($this, [
@@ -179,8 +179,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed>|object|null $data
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withParsedBody(mixed $data): static
     {
         return clone ($this, [
@@ -191,8 +191,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed> $query
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withQueryParams(array $query): static
     {
         return clone ($this, [
@@ -203,8 +203,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     /**
      * @param array<mixed, mixed> $uploadedFiles
      */
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withUploadedFiles(array $uploadedFiles): static
     {
         return clone ($this, [
@@ -212,8 +212,8 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
         ]);
     }
 
-    #[NoDiscard]
-    #[Override]
+    #[NoDiscard()]
+    #[Override()]
     public function withoutAttribute(string $name): static
     {
         $clone = $this->attributes;
