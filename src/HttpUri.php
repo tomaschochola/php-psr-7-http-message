@@ -50,7 +50,6 @@ readonly class HttpUri implements Stringable, UriInterface
     public function getAuthority(): string
     {
         $authority = '';
-
         $userinfo = $this->getUserInfo();
 
         if ($userinfo !== '') {
@@ -58,7 +57,6 @@ readonly class HttpUri implements Stringable, UriInterface
         }
 
         $authority .= $this->getHost();
-
         $port = $this->getPort();
 
         if ($port !== null) {

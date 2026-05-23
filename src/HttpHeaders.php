@@ -104,7 +104,6 @@ readonly class HttpHeaders
     public function remove(string $key): static
     {
         $clone = $this->headers;
-
         unset($clone[self::key($key)]);
 
         return clone ($this, [

@@ -65,7 +65,6 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
 
         $resource = $this->resource->current;
-
         unset($this->resource->current);
 
         if (is_resource($resource)) {
@@ -96,7 +95,6 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
 
         $resource = $this->resource->current;
-
         unset($this->resource->current);
 
         if (!fclose($resource)) {
@@ -116,7 +114,6 @@ readonly class HttpStream implements StreamInterface, Stringable
         }
 
         $resource = $this->resource->current;
-
         unset($this->resource->current);
 
         return $resource;
