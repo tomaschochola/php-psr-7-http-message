@@ -216,6 +216,7 @@ readonly class HttpServerRequest extends HttpRequest implements ServerRequestInt
     public function withoutAttribute(string $name): static
     {
         $clone = $this->attributes;
+
         unset($clone[$name]);
 
         return clone ($this, [
