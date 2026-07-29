@@ -1,3 +1,4 @@
+name: 'php-psr-7-http-message-devcontainer'
 networks:
   devcontainer:
     internal: false
