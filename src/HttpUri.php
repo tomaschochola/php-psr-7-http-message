@@ -95,7 +95,7 @@ readonly class HttpUri implements Stringable, UriInterface
     #[Override()]
     public function getPort(): int | null
     {
-        return $this->uri->getPort() ?? null;
+        return $this->uri->getPort();
     }
 
     #[NoDiscard()]
