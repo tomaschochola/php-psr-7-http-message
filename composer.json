@@ -45,7 +45,6 @@
   "minimum-stability": "dev",
   "name": "tomaschochola/php-psr-7-http-message",
   "prefer-stable": true,
-  "readme": "./README.md",
   "repositories": [
     {
       "no-api": true,
