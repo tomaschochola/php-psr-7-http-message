@@ -15,10 +15,10 @@
       "url": "https://github.com/tomaschochola"
     }
   ],
-  "description": "@tomaschochola/php-psr-7-http-message",
+  "description": "PSR-7 HTTP message, request, response, stream, URI, and upload implementations.",
   "devDependencies": {
-    "@tomaschochola/tooling-eslint": "github:tomaschochola/tooling-eslint#1.x",
-    "@tomaschochola/tooling-prettier": "github:tomaschochola/tooling-prettier#1.x",
+    "@tomaschochola/tooling-eslint": "github:tomaschochola/tooling-eslint#2.x",
+    "@tomaschochola/tooling-prettier": "github:tomaschochola/tooling-prettier#2.x",
     "@tomaschochola/tooling-trimmer": "github:tomaschochola/tooling-trimmer#2.x"
   },
   "funding": {
@@ -36,8 +36,10 @@
   "license": "CC-BY-ND-4.0",
   "name": "@tomaschochola/php-psr-7-http-message",
   "private": true,
-  "repository": "github:tomaschochola/php-psr-7-http-message",
-  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomaschochola/php-psr-7-http-message.git"
+  },
   "type": "module",
   "version": "0.0.0"
 }
