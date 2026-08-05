@@ -18,8 +18,7 @@ namespace TomasChochola\Psr\Http\Message;
 use NoDiscard;
 
 use function array_merge;
-use function array_merge_recursive;
-use function array_replace;
+use function array_values;
 use function strtr;
 
 /**
@@ -28,12 +27,12 @@ use function strtr;
 readonly class HttpHeaders
 {
     /**
-     * @var array<mixed, array<mixed, list<string>>>
+     * @var array<string, array<string, list<string>>>
      */
     private array $headers;
 
     /**
-     * @param array<mixed, array<mixed, list<string>>> $headers
+     * @param array<string, array<string, list<string>>> $headers
      */
     public function __construct(array $headers)
     {
@@ -46,18 +45,17 @@ readonly class HttpHeaders
     #[NoDiscard()]
     public function add(string $key, array | string $value): static
     {
-        // @phpstan-ignore-next-line assign.propertyType
+        $headers = $this->headers;
+        $normalizedKey = self::key($key);
+        $headers[$normalizedKey][$key] = array_merge($headers[$normalizedKey][$key] ?? [], array_values((array) $value));
+
         return clone ($this, [
-            'headers' => array_merge_recursive($this->headers, [
-                self::key($key) => [
-                    $key => (array) $value,
-                ],
-            ]),
+            'headers' => $headers,
         ]);
     }
 
     /**
-     * @return array<mixed, list<string>>
+     * @return array<string, list<string>>
      */
     #[NoDiscard()]
     public function all(): array
@@ -74,7 +72,7 @@ readonly class HttpHeaders
     }
 
     /**
-     * @return array<mixed, string>
+     * @return list<string>
      */
     #[NoDiscard()]
     public function get(string $key): array
@@ -118,13 +116,14 @@ readonly class HttpHeaders
     #[NoDiscard()]
     public function set(string $key, array | string $value): static
     {
-        // @phpstan-ignore-next-line assign.propertyType
+        $headers = $this->headers;
+
+        $headers[self::key($key)] = [
+            $key => array_values((array) $value),
+        ];
+
         return clone ($this, [
-            'headers' => array_replace($this->headers, [
-                self::key($key) => [
-                    $key => (array) $value,
-                ],
-            ]),
+            'headers' => $headers,
         ]);
     }
 
