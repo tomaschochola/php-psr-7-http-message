@@ -49,9 +49,7 @@
         "TomasChochola",
         "Tomas Chochola",
         "Tomáš Chochola",
-        "http",
-        "http-message",
-        "psr-7"
+        "php-psr-7-http-message"
     ],
     "license": "CC-BY-ND-4.0",
     "name": "tomaschochola/php-psr-7-http-message",
