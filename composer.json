@@ -51,7 +51,7 @@
         "Tomáš Chochola",
         "php-psr-7-http-message"
     ],
-    "license": "CC-BY-ND-4.0",
+    "license": "BSD-3-Clause",
     "name": "tomaschochola/php-psr-7-http-message",
     "prefer-stable": true,
     "provide": {
